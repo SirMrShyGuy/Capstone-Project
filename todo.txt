@@ -4,4 +4,6 @@
 4. add graphs to from library choosen in todo-3 
 5. add css code to stylesheets.css
 6. add inital code to all files
+7. update readme
+8. add test cases
 
