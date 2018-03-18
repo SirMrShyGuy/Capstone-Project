@@ -1,0 +1,7 @@
+1. add dependencies for RPi.GPIO and sqlite
+2. figure out how to store sensor values in database or better alternative 
+3. decide between pygal and plotly (Preston: I sugest pygal) 
+4. add graphs to from library choosen in todo-3 
+5. add css code to stylesheets.css
+6. add inital code to all files
+
