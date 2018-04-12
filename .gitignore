@@ -3,3 +3,5 @@
 venv/
 SmartOutlet/__pycache__/
 Database/__pycache__/
+Database/
+data_49002.sqlite

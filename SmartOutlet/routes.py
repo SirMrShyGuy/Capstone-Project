@@ -19,7 +19,7 @@ for pin in outletInfo:
     GPIO.setup(pin["pinNum"], GPIO.OUT)
     GPIO.output(pin["pinNum"], GPIO.HIGH)
 
-sqlite_file='/home/pi/Desktop/data_49002.sqlite'
+sqlite_file='/home/pi/Desktop/Capstone-Project/Database/data_49002.sqlite'
 
 def readDB(current_outlet):
     conn=sqlite3.connect(sqlite_file)
