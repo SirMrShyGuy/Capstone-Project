@@ -1,4 +1,6 @@
 from SmartOutlet import app
+import Database
+
 
 import threading
 import logging
@@ -10,7 +12,7 @@ logging.basicConfig(level=logging.DEBUG,
 # separate thread 
 def database_service():
     logging.debug("Starting")
-    print("this is where the database will start")
+    Database.run()
     logging.debug("Exiting")
     
 database_t = threading.Thread(name="Database", target=database_service)
