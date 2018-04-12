@@ -35,9 +35,8 @@ def readADC(channel):
 # Starts database collection
 def run(): 
     while True:
-        VPP = [0]*4
-        lowValue = [512]*4
-        highValue = [512]*4
+        lowValue = [512]*20
+        highValue = [512]*20
         watts = [0]*4
         for i in range (4):
             endOfTime = time.time() + 1
@@ -45,13 +44,24 @@ def run():
                 value = 512
                 value = readADC(i)
                 if lowValue[i] > value:
-                    lowValue[i] = value
+				    lowValue[i+16] = lowValue[i+12]
+					lowValue[i+12] = lowValue[i+8]
+					lowValue[i+8] = lowValue[i+4]
+                    lowValue[i+4] = lowValue[i]					
+                    lowValue[i] = value					
                 elif highValue[i] < value:
-                    highValue[i] = value
+				    highValue[i+16] = highValue[i+12]
+					highValue[i+12] = highValue[i+8]
+					highValue[i+8] = highValue[i+4]
+                    highValue[i+4] = highValue[i]					
+                    highValue[i] = value	
+				
+				trueHigh = (highValue[i+4] + highValue[i+8] + highValue[i+12])/3
+				trueLow = (lowValue[i+4] + lowValue[i+8] + lowValue[i+12])/3
                 #voltage peak to peak times the adc reference voltage (5) and divided by 1024(max value)
                 #vpp subtracted by 2.5 to get the actual value times .1 for the volt to amp ratio then times wall voltage (120v)
                 if GPIO.input(outletInfo[i]["pinNum"]) == True:
-                    watts[i] = (highValue[i]-lowValue[i]) *2.92969
+                    watts[i] = (trueHigh-trueLow) * 2.92969
                 else:
                     watts[i] = 0
         writeDB(watts)
