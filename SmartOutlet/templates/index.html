@@ -18,6 +18,8 @@
 		<a href="/{{ pin["id"] }}/on" class="button">TURN ON</a>
 		{% endif %}
 	</h3>
-	<h3> Space for graphs </h3>
+	<figure>
+		<embed type="image/svg+xml" src="/{{ pin["id"] }}/graph" />
+	</figure>
 	{% endfor %}
 {% endblock %}

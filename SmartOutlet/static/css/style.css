@@ -24,6 +24,13 @@ header h1.logo{
 	margin: 0 auto;
 }
 
+.mainContent {
+	background-color: #E1E1D0;
+	border-radius: 25px;
+	width: 1200px;
+	margin: 0 auto;
+}
+
 .menu {
 	float: right;
 	maring-top: 8px;
@@ -41,6 +48,8 @@ header h1.logo{
 	color: #444;
 	text-decoration: none;
 }
+
+
 
 
 
