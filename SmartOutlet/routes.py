@@ -8,16 +8,16 @@ GPIO.setmode(GPIO.BCM)
 
 #Outlet Info
 outletInfo = [
-    {"id": 0, "name": "outlet1", "pinNum": 5, "state": GPIO.LOW},
-    {"id": 1, "name": "outlet2", "pinNum": 6, "state": GPIO.LOW},
-    {"id": 2, "name": "outlet3", "pinNum": 13,"state": GPIO.LOW},
-    {"id": 3, "name": "outlet4", "pinNum": 19,"state": GPIO.LOW}
+    {"id": 0, "name": "outlet1", "pinNum": 6, "state": GPIO.HIGH},
+    {"id": 1, "name": "outlet2", "pinNum": 13, "state": GPIO.HIGH},
+    {"id": 2, "name": "outlet3", "pinNum": 19,"state": GPIO.HIGH},
+    {"id": 3, "name": "outlet4", "pinNum": 26,"state": GPIO.HIGH}
     ]
 
 #Start GPIO setup
 for pin in outletInfo:
     GPIO.setup(pin["pinNum"], GPIO.OUT)
-    GPIO.output(pin["pinNum"], GPIO.LOW)
+    GPIO.output(pin["pinNum"], GPIO.HIGH)
 
 sqlite_file='/home/pi/Desktop/data_49002.sqlite'
 
@@ -53,11 +53,11 @@ def about():
 def action(outletId, action):
     #
     if action == "on":
-        GPIO.output(outletInfo[int(outletId)]["pinNum"],GPIO.HIGH)
-        outletInfo[int(outletId)]["state"]=GPIO.HIGH
-    if action == "off":
         GPIO.output(outletInfo[int(outletId)]["pinNum"],GPIO.LOW)
         outletInfo[int(outletId)]["state"]=GPIO.LOW
+    if action == "off":
+        GPIO.output(outletInfo[int(outletId)]["pinNum"],GPIO.HIGH)
+        outletInfo[int(outletId)]["state"]=GPIO.HIGH
     
     templateData = {
             "title": "Home Page",

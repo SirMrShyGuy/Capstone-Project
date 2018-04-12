@@ -11,10 +11,10 @@ spi.open(0,0)
 spi.max_speed_hz = 1000000
 
 outletInfo = [
-    {"id": 0, "name": "outlet1", "pinNum": 5, "state": GPIO.LOW},
-    {"id": 1, "name": "outlet2", "pinNum": 6, "state": GPIO.LOW},
-    {"id": 2, "name": "outlet3", "pinNum": 13,"state": GPIO.LOW},
-    {"id": 3, "name": "outlet4", "pinNum": 19,"state": GPIO.LOW}
+    {"id": 0, "name": "outlet 1", "pinNum": 6, "state": GPIO.HIGH},
+    {"id": 1, "name": "outlet 2", "pinNum": 13, "state": GPIO.HIGH},
+    {"id": 2, "name": "outlet 3", "pinNum": 19,"state": GPIO.HIGH},
+    {"id": 3, "name": "outlet 4", "pinNum": 26,"state": GPIO.HIGH}
     ]
 
 # Write to database
@@ -37,45 +37,41 @@ def run():
     while True:
         watts = [0]*4
         for i in range (4):
-			showme = 0;
-			lowValue = [512]*20
-			highValue = [512]*20
+            lowValue = [512]*20
+            highValue = [512]*20
             endOfTime = time.time() + 1
             while time.time() < endOfTime:
-				showme += 1
-                value = 512
                 value = readADC(i)
-                if lowValue[i] > value:				
+                if lowValue[i] > value:
                     lowValue[i] = value
-				elif lowValue[i+4] > value:
-					lowValue[i+4] = value 
-				elif lowValue[i+8] > value:
-					lowValue[i+8] = value 
-				elif lowValue[i+12] > value:
-					lowValue[i+12] = value 
-				elif lowValue[i+16] > value:
-					lowValue[i+16] = value 
-                elif highValue[i] < value:				
-                    highValue[i] = value	
-				elif highValue[i+4] < value:
-					highValue[i+4] = value
-				elif highValue[i+8] < value:
-					highValue[i+8] = value
-				elif highValue[i+12] < value:
-					highValue[i+12] = value
-				elif highValue[i+16] < value:
-					highValue[i+16] = value
-				#Average of the remaining values after removing the highest and 5th highest values
-				trueHigh = (highValue[i+4] + highValue[i+8] + highValue[i+12])/3
-				trueLow = (lowValue[i+4] + lowValue[i+8] + lowValue[i+12])/3
+                elif lowValue[i+4] > value:
+                    lowValue[i+4] = value
+                elif lowValue[i+8] > value:
+                    lowValue[i+8] = value
+                elif lowValue[i+12] > value:
+                    lowValue[i+12] = value
+                elif lowValue[i+16] > value:
+                    lowValue[i+16] = value
+                elif highValue[i] < value:
+                    highValue[i] = value
+                elif highValue[i+4] < value:
+                    highValue[i+4] = value
+                elif highValue[i+8] < value:
+                    highValue[i+8] = value
+                elif highValue[i+12] < value:
+                    highValue[i+12] = value
+                elif highValue[i+16] < value:
+                    highValue[i+16] = value
+		#Average of the remaining values after removing the highest and 5th highest values
+                trueHigh = (highValue[i+4] + highValue[i+8] + highValue[i+12])/3
+                trueLow = (lowValue[i+4] + lowValue[i+8] + lowValue[i+12])/3
                 #voltage peak to peak times the adc reference voltage (5) and divided by 1024(max value)
-                #vpp subtracted by 2.5 to get the actual value times .1 for the volt to amp ratio then times wall voltage (120v)
-                if GPIO.input(outletInfo[i]["pinNum"]) == True:
-                    watts[i] = (trueHigh-trueLow) * 2.92969
+                #vpp subtracted by 2.5 to get the actual value divided .1 for the volt to amp ratio then times wall voltage (120v)
+                vpp = (trueHigh-trueLow)
+                if GPIO.input(outletInfo[i]["pinNum"]) == False:
+                    watts[i] = vpp * 1.9
                 else:
                     watts[i] = 0
-				echo showme;]
-			print(showme)
         writeDB(watts)
         time.sleep(1)
     return

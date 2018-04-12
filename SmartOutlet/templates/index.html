@@ -5,7 +5,7 @@
 	
 	{% for pin in outletInfo %}
 	<h3>{{ pin["name"] }}: 
-		{% if pin["state"] == true %}
+		{% if pin["state"] == false %}
 		ON
 		{% else %}
 		OFF
@@ -13,9 +13,9 @@
 	</h3>
 	<h3>
 		{% if pin["state"] == true %}
-		<a href="/{{ pin["id"] }}/off" class="button">TURN OFF</a>
-		{% else %}
 		<a href="/{{ pin["id"] }}/on" class="button">TURN ON</a>
+		{% else %}
+		<a href="/{{ pin["id"] }}/off" class="button">TURN OFF</a>
 		{% endif %}
 	</h3>
 	<figure>
