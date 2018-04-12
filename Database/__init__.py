@@ -4,7 +4,7 @@ import time
 import os
 import RPi.GPIO as GPIO
 
-sqlite_file='/home/pi/Desktop/data_49002.sqlite'
+sqlite_file='/home/pi/Desktop/Capstone-Project/Database/data_49002.sqlite'
 
 spi = spidev.SpiDev()
 spi.open(0,0)
@@ -69,7 +69,11 @@ def run():
                 #vpp subtracted by 2.5 to get the actual value divided .1 for the volt to amp ratio then times wall voltage (120v)
                 vpp = (trueHigh-trueLow)
                 if GPIO.input(outletInfo[i]["pinNum"]) == False:
-                    watts[i] = vpp * 1.9
+                    whatts = (vpp * 1.912)
+                    if whatts > 0:
+                        watts[i] = whatts
+                    else:
+                        watts[i] = 0
                 else:
                     watts[i] = 0
         writeDB(watts)

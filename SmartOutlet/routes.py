@@ -22,12 +22,24 @@ for pin in outletInfo:
 sqlite_file='/home/pi/Desktop/Capstone-Project/Database/data_49002.sqlite'
 
 def readDB(current_outlet):
+    countlimit = 100
     conn=sqlite3.connect(sqlite_file)
+    b=conn.cursor()
+    b.execute('SELECT count({cn}) FROM {tn}' .\
+              format(cn=current_outlet, tn='holder'))
+    count=b.fetchone()[0]
     conn.row_factory = lambda cursor, row: row[0]
     c=conn.cursor()
-    c.execute('SELECT ({cn}) FROM {tn}'.\
-              format(cn=current_outlet, tn='holder'))
-    current_values=c.fetchall()
+
+    if count>countlimit:
+        count = count-countlimit
+        c.execute('SELECT ({cn}) FROM {tn} LIMIT 100 OFFSET {cnt}'.\
+                  format(cn=current_outlet, tn='holder', cnt=count, cntlimit=countlimit))
+        current_values=c.fetchall()
+    else:
+        c.execute('SELECT ({cn}) FROM {tn}'.\
+                  format(cn=current_outlet, tn='holder'))
+        current_values=c.fetchall()
     conn.commit()
     conn.close()
     return current_values

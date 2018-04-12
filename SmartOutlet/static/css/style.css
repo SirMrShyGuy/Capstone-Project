@@ -49,7 +49,34 @@ header h1.logo{
 	text-decoration: none;
 }
 
+.contentContainer {
+        width: 50%;
+        height: 50%;
+        display: inline;
+}
 
+.contentHeader {
+	vertical-align: middle;
+}
 
+.button {
+	display: inline;
+	font: bold 11px Arial;
+ 	text-decoration: none;
+ 	background-color: #EEEEEE;
+ 	color: #333333;
+ 	padding: 5px 12px 5px 12px;
+ 	border-top: 1px solid #CCCCCC;
+ 	border-right: 1px solid #333333;
+ 	border-bottom: 1px solid #333333;
+ 	border-left: 1px solid #CCCCCC;
+}
 
+.outletStatus {
+
+}
+
+.graph {
+
+}
 
