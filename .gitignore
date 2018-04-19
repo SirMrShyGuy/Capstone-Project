@@ -1,4 +1,5 @@
 
 .DS_Store
 venv/
-SmartOutlet/__pycahche__/
+SmartOutlet/__pycache__/
+Database/__pycache__/
