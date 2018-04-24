@@ -6,19 +6,19 @@
 	{% for pin in outletInfo %}
 	<div class="contentContainer">
 		<h3 class="outletStatus">{{ pin["name"] }}: 
-			{% if pin["state"] == false %}
+			{% if pin["state"] == true %}
 			ON
 			{% else %}
 			OFF
 			{% endif %}
-			{% if pin["state"] == true %}
+			{% if pin["state"] == false %}
 			<a href="/{{ pin["id"] }}/on" class="button">TURN ON</a>
 			{% else %}
 			<a href="/{{ pin["id"] }}/off" class="button">TURN OFF</a>
 			{% endif %}
 		</h3>
-		<figure class="graph">
-			<embed type="image/svg+xml" src="/{{ pin["id"] }}/graph" />
+		<figure>
+			<embed type="image/svg+xml" src="/{{ pin["id"] }}/graph" width=100% />
 		</figure>
 	</div>
 	{% endfor %}

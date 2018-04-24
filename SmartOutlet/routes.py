@@ -5,21 +5,21 @@ import pygal
 import sqlite3
 
 GPIO.setmode(GPIO.BCM)
-
+GPIO.setwarnings(False)
 #Outlet Info
 outletInfo = [
-    {"id": 0, "name": "outlet1", "pinNum": 6, "state": GPIO.HIGH},
-    {"id": 1, "name": "outlet2", "pinNum": 13, "state": GPIO.HIGH},
-    {"id": 2, "name": "outlet3", "pinNum": 19,"state": GPIO.HIGH},
-    {"id": 3, "name": "outlet4", "pinNum": 26,"state": GPIO.HIGH}
+    {"id": 0, "name": "outlet1", "pinNum": 6, "state": GPIO.LOW},
+    {"id": 1, "name": "outlet2", "pinNum": 13, "state": GPIO.LOW},
+    {"id": 2, "name": "outlet3", "pinNum": 19,"state": GPIO.LOW},
+    {"id": 3, "name": "outlet4", "pinNum": 26,"state": GPIO.LOW}
     ]
 
 #Start GPIO setup
 for pin in outletInfo:
     GPIO.setup(pin["pinNum"], GPIO.OUT)
-    GPIO.output(pin["pinNum"], GPIO.HIGH)
+    GPIO.output(pin["pinNum"], GPIO.LOW)
 
-sqlite_file='/home/pi/Desktop/Capstone-Project/Database/data_49002.sqlite'
+sqlite_file='/home/pi/Capstone-Project/Database/data_49002.sqlite'
 
 def readDB(current_outlet):
     countlimit = 100
@@ -44,7 +44,7 @@ def readDB(current_outlet):
     conn.close()
     return current_values
 
-#-Home page 
+#-Home page
 @app.route("/")
 @app.route("/index")
 def index():
@@ -65,12 +65,12 @@ def about():
 def action(outletId, action):
     #
     if action == "on":
-        GPIO.output(outletInfo[int(outletId)]["pinNum"],GPIO.LOW)
-        outletInfo[int(outletId)]["state"]=GPIO.LOW
-    if action == "off":
         GPIO.output(outletInfo[int(outletId)]["pinNum"],GPIO.HIGH)
         outletInfo[int(outletId)]["state"]=GPIO.HIGH
-    
+    if action == "off":
+        GPIO.output(outletInfo[int(outletId)]["pinNum"],GPIO.LOW)
+        outletInfo[int(outletId)]["state"]=GPIO.LOW
+
     templateData = {
             "title": "Home Page",
             "header": "Control Page",
@@ -82,8 +82,10 @@ def action(outletId, action):
 @app.route("/<outletId>/graph")
 def graph(outletId):
     values = readDB(outletInfo[int(outletId)]["name"])
-    
-    chart = pygal.Line()
+
+    chart = pygal.Line(show_legend=False)
     chart.title = outletInfo[int(outletId)]["name"] + " Power Usage"
+    chart.x_title = "Time"
+    chart.y_title = "Watts"
     chart.add(outletInfo[int(outletId)]["name"], values)
     return Response(response=chart.render(), content_type="image/svg+xml")

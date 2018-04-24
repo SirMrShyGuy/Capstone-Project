@@ -1,6 +1,6 @@
 import sqlite3
 
-sqlite_file='data_49003.sqlite'
+sqlite_file='data_49002sqlite'
 table_name='holder'
 new_field1='outlet1'
 new_field2='outlet2'

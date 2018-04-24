@@ -50,18 +50,17 @@ header h1.logo{
 }
 
 .contentContainer {
-        width: 50%;
-        height: 50%;
-        display: inline;
+        display: inline-block;
+	width: 49%;
 }
 
 .contentHeader {
-	vertical-align: middle;
+	text-align: center;
 }
 
 .button {
 	display: inline;
-	font: bold 11px Arial;
+	font: bold 20px Arial;
  	text-decoration: none;
  	background-color: #EEEEEE;
  	color: #333333;
@@ -73,7 +72,7 @@ header h1.logo{
 }
 
 .outletStatus {
-
+	text-align: center;
 }
 
 .graph {
